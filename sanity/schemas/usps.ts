@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { sectiekop } from "./velden";
 
 /** Iconen die in components/ui/Icons.tsx bestaan voor de tegels. */
 const USP_ICONEN = [
@@ -18,6 +19,21 @@ export const usps = defineType({
   title: "Waarom wij",
   type: "document",
   fields: [
+    ...sectiekop(),
+    defineField({
+      name: "intro",
+      title: "Tekst onder de kop",
+      type: "text",
+      rows: 3,
+      validation: (Rule) => Rule.required().max(300),
+    }),
+    defineField({
+      name: "uitgelichtLink",
+      title: "Linktekst op de uitgelichte tegel",
+      description: "Verwijst naar de aanpak-sectie. Leeg laten verbergt de link.",
+      type: "string",
+      validation: (Rule) => Rule.max(40),
+    }),
     defineField({
       name: "lijst",
       title: "Tegels",

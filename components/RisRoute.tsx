@@ -36,10 +36,10 @@ export function RisRoute({ aanpak }: { aanpak: AanpakData }) {
       <div className="shell relative">
         <header className="max-w-2xl">
           <Reveal>
-            <p className="eyebrow text-amber">De aanpak</p>
+            <p className="eyebrow text-amber">{aanpak.eyebrow}</p>
             <h2 className="display h-section mt-5 text-white">
-              Vier modules.<br />
-              Eén route.
+              {aanpak.kopRegel1}<br />
+              {aanpak.kopRegel2}
             </h2>
           </Reveal>
           <Reveal delay={0.08}>

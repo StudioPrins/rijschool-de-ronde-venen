@@ -8,7 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
 import type { ContactLinks } from "@/lib/contact";
-import type { PakkettenData } from "@/sanity/types";
+import type { AanmeldenData, PakkettenData } from "@/sanity/types";
 
 type Velden = {
   naam: string;
@@ -29,9 +29,11 @@ const stappen = [
 ];
 
 export function SignupForm({
+  aanmelden,
   pakketten,
   contact,
 }: {
+  aanmelden: AanmeldenData;
   pakketten: PakkettenData;
   contact: ContactLinks;
 }) {
@@ -108,15 +110,12 @@ export function SignupForm({
       <div className="shell relative grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
         <div>
           <Reveal>
-            <p className="eyebrow text-amber">Aanmelden</p>
+            <p className="eyebrow text-amber">{aanmelden.eyebrow}</p>
             <h2 className="display h-section mt-5 text-white">
-              Begin<br />
-              deze week.
+              {aanmelden.kopRegel1}<br />
+              {aanmelden.kopRegel2}
             </h2>
-            <p className="mt-6 max-w-md leading-relaxed text-slate">
-              Vul in wat je kwijt wilt. Je hoort binnen een dag van Arash wanneer je eerste les
-              kan, en dan bespreken we rustig wat er bij jou past.
-            </p>
+            <p className="mt-6 max-w-md leading-relaxed text-slate">{aanmelden.intro}</p>
           </Reveal>
 
           <Reveal delay={0.12}>
@@ -163,11 +162,13 @@ export function SignupForm({
                     <Icon name="check" className="size-7" />
                   </motion.span>
                   <h3 className="display mt-7 text-[1.75rem] text-white">
-                    Bedankt, {velden.naam.split(" ")[0] || "tot snel"}.
+                    {aanmelden.succesKop.replace(
+                      "{naam}",
+                      velden.naam.trim().split(/\s+/)[0] || "tot snel",
+                    )}
                   </h3>
                   <p className="mt-3 max-w-sm leading-relaxed text-slate">
-                    Je aanmelding staat genoteerd. Arash neemt binnen één werkdag contact met je
-                    op om je eerste les in te plannen.
+                    {aanmelden.succesTekst}
                   </p>
                   <button
                     type="button"

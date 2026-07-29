@@ -1,10 +1,12 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { sectiekop } from "./velden";
 
 export const aanpak = defineType({
   name: "aanpak",
   title: "Aanpak (RIS)",
   type: "document",
   fields: [
+    ...sectiekop({ max: 16 }),
     defineField({
       name: "intro",
       title: "Introtekst",

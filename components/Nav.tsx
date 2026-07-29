@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
 import type { ContactLinks } from "@/lib/contact";
 import { navLinks } from "@/lib/navigatie";
 
-export function Nav({ contact }: { contact: ContactLinks }) {
+export function Nav({ contact, ctaLabel }: { contact: ContactLinks; ctaLabel: string }) {
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 26, restDelta: 0.001 });
 
@@ -110,7 +110,7 @@ export function Nav({ contact }: { contact: ContactLinks }) {
                 href="#aanmelden"
                 className="hidden px-5 py-2.5 text-sm whitespace-nowrap sm:inline-flex"
               >
-                Meld je aan
+                {ctaLabel}
               </Button>
               <button
                 type="button"
@@ -177,7 +177,7 @@ export function Nav({ contact }: { contact: ContactLinks }) {
 
               <div className="mt-auto flex flex-col gap-3 pt-10">
                 <Button href="#aanmelden" onClick={() => setOpen(false)} className="w-full">
-                  Meld je aan
+                  {ctaLabel}
                 </Button>
                 <a
                   href={contact.telefoonHref}

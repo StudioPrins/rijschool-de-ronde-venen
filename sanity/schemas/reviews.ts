@@ -1,10 +1,12 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { sectiekop } from "./velden";
 
 export const reviews = defineType({
   name: "reviews",
   title: "Reviews",
   type: "document",
   fields: [
+    ...sectiekop(),
     defineField({
       name: "gemiddelde",
       title: "Gemiddelde beoordeling",

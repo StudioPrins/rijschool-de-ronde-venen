@@ -56,7 +56,7 @@ export function AboutArash({
 
         <div className="lg:pt-4">
           <Reveal>
-            <p className="eyebrow text-ember">Over de instructeur</p>
+            <p className="eyebrow text-ember">{overArash.eyebrow}</p>
             <h2 className="display h-section mt-5 text-ink">{overArash.kop}</h2>
           </Reveal>
 
@@ -88,7 +88,7 @@ export function AboutArash({
 
           <Reveal delay={0.34}>
             <div className="mt-10">
-              <Button href="#aanmelden">Plan je eerste les</Button>
+              <Button href="#aanmelden">{overArash.knop}</Button>
             </div>
           </Reveal>
         </div>

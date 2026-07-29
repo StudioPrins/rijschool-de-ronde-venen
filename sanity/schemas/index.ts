@@ -1,5 +1,6 @@
 import type { SchemaTypeDefinition } from "sanity";
 
+import { aanmelden } from "./aanmelden";
 import { aanpak } from "./aanpak";
 import { cijfers } from "./cijfers";
 import { faq } from "./faq";
@@ -23,6 +24,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   pakketten,
   reviews,
   faq,
+  aanmelden,
   voorwaarden,
 ];
 
@@ -36,5 +38,6 @@ export const singletons = [
   { type: "pakketten", titel: "Prijzen", icoon: "💶" },
   { type: "reviews", titel: "Reviews", icoon: "⭐" },
   { type: "faq", titel: "Veelgestelde vragen", icoon: "❓" },
+  { type: "aanmelden", titel: "Aanmeldformulier", icoon: "✉️" },
   { type: "voorwaarden", titel: "Algemene voorwaarden", icoon: "📄" },
 ] as const;

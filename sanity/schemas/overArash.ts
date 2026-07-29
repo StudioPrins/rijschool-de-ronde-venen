@@ -6,10 +6,22 @@ export const overArash = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "eyebrow",
+      title: "Klein label boven de kop",
+      type: "string",
+      validation: (Rule) => Rule.required().max(28),
+    }),
+    defineField({
       name: "kop",
       title: "Kop",
       type: "string",
       validation: (Rule) => Rule.required().max(30),
+    }),
+    defineField({
+      name: "knop",
+      title: "Tekst op de knop",
+      type: "string",
+      validation: (Rule) => Rule.required().max(28),
     }),
     defineField({
       name: "alineas",

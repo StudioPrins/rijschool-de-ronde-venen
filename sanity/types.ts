@@ -39,6 +39,9 @@ export type SiteData = {
   heroAccent: string;
   heroIntro: string;
   heroPunten: string[];
+  heroKnopPrimair: string;
+  heroKnopSecundair: string;
+  heroPaneelTitel: string;
   footerTekst: string;
   regios: string[];
   url: string;
@@ -54,15 +57,30 @@ export type CijferData = {
   icoon: Extract<IconName, "cap" | "wheel" | "chart">;
 };
 
-export type UspData = {
+/** Kop die op de pagina over twee regels breekt. */
+export type Sectiekop = {
+  eyebrow: string;
+  kopRegel1: string;
+  kopRegel2: string;
+};
+
+export type UspTegel = {
   titel: string;
   tekst: string;
   icoon: IconName;
   groot: boolean | null;
 };
 
+export type UspsData = Sectiekop & {
+  intro: string;
+  uitgelichtLink: string | null;
+  lijst: UspTegel[];
+};
+
 export type OverArashData = {
+  eyebrow: string;
   kop: string;
+  knop: string;
   alineas: string[];
   badge: string | null;
   portret: SanityAfbeelding;
@@ -75,7 +93,7 @@ export type ModuleData = {
   onderdelen: string[];
 };
 
-export type AanpakData = {
+export type AanpakData = Sectiekop & {
   intro: string;
   eindpunt: string;
   modules: ModuleData[];
@@ -94,6 +112,8 @@ export type PakketData = {
 };
 
 export type PakkettenData = {
+  kopRegel1: string;
+  kopRegel2: string;
   actieLabel: string | null;
   actieTekst: string;
   losseLesPrijs: number;
@@ -108,16 +128,22 @@ export type ReviewData = {
   tekst: string;
 };
 
-export type ReviewsData = {
+export type ReviewsData = Sectiekop & {
   gemiddelde: number;
   bron: string;
   aantal: number;
   lijst: ReviewData[];
 };
 
-export type FaqData = {
+export type FaqData = Sectiekop & {
   intro: string;
   lijst: Array<{ vraag: string; antwoord: string }>;
+};
+
+export type AanmeldenData = Sectiekop & {
+  intro: string;
+  succesKop: string;
+  succesTekst: string;
 };
 
 export type ArtikelData = {
@@ -135,10 +161,11 @@ export type VoorwaardenData = {
 export type PaginaData = {
   site: SiteData;
   cijfers: CijferData[];
-  usps: UspData[];
+  usps: UspsData;
   overArash: OverArashData;
   aanpak: AanpakData;
   pakketten: PakkettenData;
   reviews: ReviewsData;
   faq: FaqData;
+  aanmelden: AanmeldenData;
 };

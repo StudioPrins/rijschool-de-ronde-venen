@@ -5,9 +5,9 @@ import { Icon } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
-import type { UspData } from "@/sanity/types";
+import type { UspsData } from "@/sanity/types";
 
-export function WhyGrid({ usps }: { usps: UspData[] }) {
+export function WhyGrid({ usps }: { usps: UspsData }) {
   const reduced = usePrefersReducedMotion();
 
   return (
@@ -15,22 +15,21 @@ export function WhyGrid({ usps }: { usps: UspData[] }) {
       <div className="shell">
         <header className="max-w-2xl">
           <Reveal>
-            <p className="eyebrow text-ember">Waarom hier</p>
+            <p className="eyebrow text-ember">{usps.eyebrow}</p>
             <h2 className="display h-section mt-5 text-ink">
-              Wat rijles hier<br />
-              anders maakt.
+              {usps.kopRegel1}<br />
+              {usps.kopRegel2}
             </h2>
           </Reveal>
           <Reveal delay={0.08}>
             <p className="mt-6 max-w-xl text-[1.0625rem] leading-relaxed text-graphite">
-              Geen lopende band, geen wisselende instructeurs en geen pakket dat je wordt
-              aangepraat. Wel een aanpak die zich aanpast aan jou.
+              {usps.intro}
             </p>
           </Reveal>
         </header>
 
         <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {usps.map((usp, index) => (
+          {usps.lijst.map((usp, index) => (
             <motion.article
               key={usp.titel}
               className={cn(
@@ -91,13 +90,13 @@ export function WhyGrid({ usps }: { usps: UspData[] }) {
                 {usp.tekst}
               </p>
 
-              {usp.groot && (
+              {usp.groot && usps.uitgelichtLink && (
                 <p className="relative mt-auto pt-8">
                   <a
                     href="#aanpak"
                     className="inline-flex items-center gap-2 text-sm font-semibold text-amber"
                   >
-                    Zo werkt de RIS-methode
+                    {usps.uitgelichtLink}
                     <Icon
                       name="pijl"
                       className="size-4 transition-transform duration-300 group-hover:translate-x-1"

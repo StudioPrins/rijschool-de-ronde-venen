@@ -74,11 +74,11 @@ export function Hero({ site }: { site: SiteData }) {
 
             <motion.div className="mt-10 flex flex-wrap items-center gap-3" {...stap(6)}>
               <Button href="#aanmelden" magnetic>
-                Meld je aan
+                {site.heroKnopPrimair}
                 <Icon name="pijl" className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
               <Button href="#prijzen" variant="outline-light">
-                Bekijk de pakketten
+                {site.heroKnopSecundair}
               </Button>
             </motion.div>
           </div>
@@ -94,7 +94,7 @@ export function Hero({ site }: { site: SiteData }) {
               aria-hidden
               className="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-amber to-transparent"
             />
-            <p className="eyebrow text-slate">Waarom hier</p>
+            <p className="eyebrow text-slate">{site.heroPaneelTitel}</p>
             <ul className="mt-6 flex flex-col gap-4">
               {site.heroPunten.map((punt, index) => (
                 <motion.li

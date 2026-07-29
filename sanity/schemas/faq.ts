@@ -1,10 +1,12 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { sectiekop } from "./velden";
 
 export const faq = defineType({
   name: "faq",
   title: "Veelgestelde vragen",
   type: "document",
   fields: [
+    ...sectiekop({ max: 14 }),
     defineField({
       name: "intro",
       title: "Tekst naast de vragen",

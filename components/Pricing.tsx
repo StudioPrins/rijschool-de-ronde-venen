@@ -33,8 +33,8 @@ export function Pricing({ pakketten }: { pakketten: PakkettenData }) {
               </span>
             )}
             <h2 className="display h-section mt-5 text-ink">
-              Eén prijs,<br />
-              alles inbegrepen.
+              {pakketten.kopRegel1}<br />
+              {pakketten.kopRegel2}
             </h2>
           </Reveal>
           <Reveal delay={0.08} className="max-w-md">

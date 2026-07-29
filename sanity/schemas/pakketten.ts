@@ -6,6 +6,18 @@ export const pakketten = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "kopRegel1",
+      title: "Kop, regel 1",
+      type: "string",
+      validation: (Rule) => Rule.required().max(20).warning("Houd het kort, anders loopt de regel uit beeld."),
+    }),
+    defineField({
+      name: "kopRegel2",
+      title: "Kop, regel 2",
+      type: "string",
+      validation: (Rule) => Rule.required().max(20).warning("Houd het kort, anders loopt de regel uit beeld."),
+    }),
+    defineField({
       name: "actieLabel",
       title: "Label op de actiebalk",
       description: "Leeg laten verbergt de balk.",

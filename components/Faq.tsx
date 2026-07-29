@@ -17,10 +17,10 @@ export function Faq({ faq, contact }: { faq: FaqData; contact: ContactLinks }) {
       <div className="shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <Reveal>
-            <p className="eyebrow text-ember">Veelgestelde vragen</p>
+            <p className="eyebrow text-ember">{faq.eyebrow}</p>
             <h2 className="display h-section mt-5 text-ink">
-              Even<br />
-              navragen.
+              {faq.kopRegel1}<br />
+              {faq.kopRegel2}
             </h2>
             <p className="mt-6 max-w-sm leading-relaxed text-graphite">{faq.intro}</p>
             <a

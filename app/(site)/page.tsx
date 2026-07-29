@@ -26,11 +26,14 @@ export default async function Home() {
   // Icoonnamen zijn sleutels in components/ui/Icons.tsx, geen leestekst: met
   // stega-tekens erin vindt de lookup niets en verdwijnt het icoon.
   const cijfers = pagina.cijfers.map((c) => ({ ...c, icoon: stegaClean(c.icoon) }));
-  const usps = pagina.usps.map((u) => ({ ...u, icoon: stegaClean(u.icoon) }));
+  const usps = {
+    ...pagina.usps,
+    lijst: pagina.usps.lijst.map((u) => ({ ...u, icoon: stegaClean(u.icoon) })),
+  };
 
   return (
     <>
-      <Nav contact={contact} />
+      <Nav contact={contact} ctaLabel={pagina.site.heroKnopPrimair} />
       <main>
         <Hero site={pagina.site} />
         <StatsBar cijfers={cijfers} />
@@ -40,7 +43,11 @@ export default async function Home() {
         <Pricing pakketten={pagina.pakketten} />
         <Reviews reviews={pagina.reviews} />
         <Faq faq={pagina.faq} contact={contact} />
-        <SignupForm pakketten={pagina.pakketten} contact={contact} />
+        <SignupForm
+          aanmelden={pagina.aanmelden}
+          pakketten={pagina.pakketten}
+          contact={contact}
+        />
       </main>
       <Footer
         naam={pagina.site.naam}

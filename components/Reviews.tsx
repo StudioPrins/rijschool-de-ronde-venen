@@ -10,10 +10,10 @@ export function Reviews({ reviews }: { reviews: ReviewsData }) {
       <div className="shell">
         <header className="flex flex-col items-start gap-8 lg:flex-row lg:items-end lg:justify-between">
           <Reveal className="max-w-xl">
-            <p className="eyebrow text-ember">Reviews</p>
+            <p className="eyebrow text-ember">{reviews.eyebrow}</p>
             <h2 className="display h-section mt-5 text-ink">
-              Wat leerlingen<br />
-              erover zeggen.
+              {reviews.kopRegel1}<br />
+              {reviews.kopRegel2}
             </h2>
           </Reveal>
 
