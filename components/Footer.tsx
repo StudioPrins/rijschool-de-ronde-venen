@@ -5,9 +5,20 @@ import {
   InstagramMark,
   WhatsappMark,
 } from "@/components/ui/Icons";
-import { contact, navLinks, regios, site } from "@/lib/content/site";
+import type { ContactLinks } from "@/lib/contact";
+import { navLinks } from "@/lib/navigatie";
 
-export function Footer() {
+export function Footer({
+  naam,
+  tekst,
+  regios,
+  contact,
+}: {
+  naam: string;
+  tekst: string;
+  regios: string[];
+  contact: ContactLinks;
+}) {
   return (
     <footer className="relative border-t border-white/[0.07] bg-[#070c18] pb-10 pt-20">
       <div className="shell">
@@ -17,13 +28,10 @@ export function Footer() {
               <span className="grid size-9 place-items-center rounded-lg bg-amber font-display text-[1.3rem] font-bold leading-none text-ink">
                 L
               </span>
-              <span className="display text-[1.15rem] text-white">{site.naam}</span>
+              <span className="display text-[1.15rem] text-white">{naam}</span>
             </span>
 
-            <p className="mt-6 max-w-sm leading-relaxed text-slate">
-              Rijles in jouw tempo, gegeven door Arash. Persoonlijke begeleiding volgens de
-              RIS-methode, met ervaring in het lesgeven aan leerlingen met autisme, ADHD en ADD.
-            </p>
+            <p className="mt-6 max-w-sm leading-relaxed text-slate">{tekst}</p>
 
             {/* Het nummer zoals het op de auto staat */}
             <a
@@ -86,14 +94,16 @@ export function Footer() {
                   {contact.email}
                 </a>
               </li>
-              <li className="flex items-start gap-2.5 text-white/80">
-                <Icon name="pin" className="mt-0.5 size-4 shrink-0 text-amber" />
-                <span>
-                  {contact.adres}
-                  <br />
-                  {contact.postcode} {contact.plaats}
-                </span>
-              </li>
+              {contact.plaats && (
+                <li className="flex items-start gap-2.5 text-white/80">
+                  <Icon name="pin" className="mt-0.5 size-4 shrink-0 text-amber" />
+                  <span>
+                    {contact.adres}
+                    <br />
+                    {contact.postcode} {contact.plaats}
+                  </span>
+                </li>
+              )}
             </ul>
 
             <div className="mt-6 flex gap-2.5">
@@ -122,7 +132,7 @@ export function Footer() {
 
         <div className="mt-6 flex flex-col gap-4 text-[0.8125rem] text-slate sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {site.naam} · KvK {contact.kvk}
+            © {new Date().getFullYear()} {naam} · KvK {contact.kvk}
           </p>
           <div className="flex gap-6">
             <Link href="/algemene-voorwaarden" className="transition-colors hover:text-amber">
@@ -138,15 +148,18 @@ export function Footer() {
   );
 }
 
+/** Laat het icoon weg als Arash die link niet heeft ingevuld. */
 function Sociaal({
   href,
   label,
   children,
 }: {
-  href: string;
+  href: string | null;
   label: string;
   children: React.ReactNode;
 }) {
+  if (!href) return null;
+
   return (
     <a
       href={href}

@@ -7,8 +7,8 @@ import { Icon } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
-import { pakketten } from "@/lib/content/pakketten";
-import { contact } from "@/lib/content/site";
+import type { ContactLinks } from "@/lib/contact";
+import type { PakkettenData } from "@/sanity/types";
 
 type Velden = {
   naam: string;
@@ -22,26 +22,34 @@ type Velden = {
   opmerkingen: string;
 };
 
-const leeg: Velden = {
-  naam: "",
-  email: "",
-  telefoon: "",
-  adres: "",
-  lessenPerWeek: "1",
-  urenPerLes: "2",
-  startdatum: "",
-  pakket: "compleet",
-  opmerkingen: "",
-};
-
 const stappen = [
   { titel: "Wie ben je?", hint: "Zodat ik je kan bereiken" },
   { titel: "Waar en wanneer?", hint: "Ophaaladres en je voorkeuren" },
   { titel: "Welk pakket?", hint: "Nog niet definitief — we praten erover" },
 ];
 
-export function SignupForm() {
+export function SignupForm({
+  pakketten,
+  contact,
+}: {
+  pakketten: PakkettenData;
+  contact: ContactLinks;
+}) {
   const reduced = usePrefersReducedMotion();
+
+  // Het uitgelichte pakket staat voorgeselecteerd; anders het eerste.
+  const leeg: Velden = {
+    naam: "",
+    email: "",
+    telefoon: "",
+    adres: "",
+    lessenPerWeek: "1",
+    urenPerLes: "2",
+    startdatum: "",
+    pakket: (pakketten.lijst.find((p) => p.uitgelicht) ?? pakketten.lijst[0])?._key ?? "advies",
+    opmerkingen: "",
+  };
+
   const [stap, setStap] = useState(0);
   const [velden, setVelden] = useState<Velden>(leeg);
   const [fouten, setFouten] = useState<Partial<Record<keyof Velden, string>>>({});
@@ -299,12 +307,16 @@ export function SignupForm() {
                               </legend>
                               <div className="mt-3 flex flex-col gap-2.5">
                                 {[
-                                  ...pakketten.map((p) => ({
-                                    id: p.id,
+                                  ...pakketten.lijst.map((p) => ({
+                                    id: p._key,
                                     naam: p.naam,
-                                    detail: `${p.uren} · € ${p.prijs.toLocaleString("nl-NL")}`,
+                                    detail: `${p.aantalUren} uur · € ${p.prijs.toLocaleString("nl-NL")}`,
                                   })),
-                                  { id: "losse", naam: "Losse lessen", detail: "€ 67 per uur" },
+                                  {
+                                    id: "losse",
+                                    naam: "Losse lessen",
+                                    detail: `€ ${pakketten.losseLesPrijs} per uur`,
+                                  },
                                   { id: "advies", naam: "Ik weet het nog niet", detail: "Adviseer me" },
                                 ].map((optie) => {
                                   const gekozen = velden.pakket === optie.id;

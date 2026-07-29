@@ -2,9 +2,9 @@
 
 import { GoogleMark, Ster } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
-import { reviews, reviewsSamenvatting, type Review } from "@/lib/content/reviews";
+import type { ReviewData, ReviewsData } from "@/sanity/types";
 
-export function Reviews() {
+export function Reviews({ reviews }: { reviews: ReviewsData }) {
   return (
     <section id="reviews" className="section-pad overflow-hidden bg-paper">
       <div className="shell">
@@ -23,7 +23,7 @@ export function Reviews() {
               <div>
                 <div className="flex items-center gap-2.5">
                   <span className="display text-[1.75rem] leading-none text-ink">
-                    {reviewsSamenvatting.gemiddelde.toLocaleString("nl-NL", {
+                    {reviews.gemiddelde.toLocaleString("nl-NL", {
                       minimumFractionDigits: 1,
                     })}
                   </span>
@@ -34,7 +34,7 @@ export function Reviews() {
                   </span>
                 </div>
                 <p className="mt-1 text-[0.8125rem] text-graphite">
-                  {reviewsSamenvatting.aantal} beoordelingen op {reviewsSamenvatting.bron}
+                  {reviews.aantal} beoordelingen op {reviews.bron}
                 </p>
               </div>
             </div>
@@ -48,7 +48,7 @@ export function Reviews() {
         <div className="marquee-track flex w-max">
           {[0, 1].map((helft) => (
             <div key={helft} className="flex gap-5 pr-5" aria-hidden={helft === 1 || undefined}>
-              {reviews.map((review) => (
+              {reviews.lijst.map((review) => (
                 <ReviewKaart key={`${helft}-${review.naam}`} review={review} />
               ))}
             </div>
@@ -62,7 +62,15 @@ export function Reviews() {
   );
 }
 
-function ReviewKaart({ review }: { review: Review }) {
+/** Initialen uit de naam: "Lisa van Kouwen" → "LK". */
+function initialen(naam: string) {
+  const woorden = naam.trim().split(/\s+/);
+  const eerste = woorden[0]?.[0] ?? "";
+  const laatste = woorden.length > 1 ? (woorden[woorden.length - 1][0] ?? "") : "";
+  return (eerste + laatste).toUpperCase();
+}
+
+function ReviewKaart({ review }: { review: ReviewData }) {
   return (
     <figure className="flex w-[19rem] shrink-0 flex-col rounded-[22px] border border-ink/10 bg-mist p-7 sm:w-[22rem]">
       <div className="flex items-center justify-between">
@@ -80,7 +88,7 @@ function ReviewKaart({ review }: { review: Review }) {
 
       <figcaption className="mt-6 flex items-center gap-3 border-t border-ink/8 pt-5">
         <span className="grid size-9 shrink-0 place-items-center rounded-full bg-ink font-mono text-[0.7rem] text-amber">
-          {review.initialen}
+          {initialen(review.naam)}
         </span>
         <span className="leading-tight">
           <span className="block text-[0.875rem] font-semibold text-ink">{review.naam}</span>

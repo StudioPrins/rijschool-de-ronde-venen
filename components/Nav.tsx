@@ -4,9 +4,10 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring } fr
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
-import { contact, navLinks, site } from "@/lib/content/site";
+import type { ContactLinks } from "@/lib/contact";
+import { navLinks } from "@/lib/navigatie";
 
-export function Nav() {
+export function Nav({ contact }: { contact: ContactLinks }) {
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 26, restDelta: 0.001 });
 
@@ -68,7 +69,7 @@ export function Nav() {
                 : "h-16 border border-transparent",
             )}
           >
-            <a href="#top" className="flex items-center gap-3" aria-label={`${site.naam} home`}>
+            <a href="#top" className="flex items-center gap-3" aria-label="Naar boven">
               <Wordmark />
             </a>
 

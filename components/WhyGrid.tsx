@@ -5,9 +5,9 @@ import { Icon } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
-import { usps } from "@/lib/content/site";
+import type { UspData } from "@/sanity/types";
 
-export function WhyGrid() {
+export function WhyGrid({ usps }: { usps: UspData[] }) {
   const reduced = usePrefersReducedMotion();
 
   return (

@@ -6,11 +6,19 @@ import { Icon } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
-import { actie, losseLes, pakketten } from "@/lib/content/pakketten";
+import type { PakkettenData } from "@/sanity/types";
 
 const euro = new Intl.NumberFormat("nl-NL");
 
-export function Pricing() {
+/** "€ 76 per lesuur" — afgeleid, zodat prijs en uurtarief nooit uit de pas lopen. */
+function perUur(prijs: number, uren: number, examensInbegrepen: boolean | null) {
+  const tarief = euro.format(Math.round(prijs / uren));
+  return examensInbegrepen
+    ? `€ ${tarief} per lesuur, examens inbegrepen`
+    : `€ ${tarief} per lesuur`;
+}
+
+export function Pricing({ pakketten }: { pakketten: PakkettenData }) {
   const reduced = usePrefersReducedMotion();
 
   return (
@@ -18,10 +26,12 @@ export function Pricing() {
       <div className="shell">
         <header className="flex flex-col items-start gap-6 lg:flex-row lg:items-end lg:justify-between">
           <Reveal className="max-w-xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-ember/12 px-3.5 py-1.5">
-              <span className="size-1.5 rounded-full bg-ember" />
-              <span className="eyebrow text-ember">{actie.label}</span>
-            </span>
+            {pakketten.actieLabel && (
+              <span className="inline-flex items-center gap-2 rounded-full bg-ember/12 px-3.5 py-1.5">
+                <span className="size-1.5 rounded-full bg-ember" />
+                <span className="eyebrow text-ember">{pakketten.actieLabel}</span>
+              </span>
+            )}
             <h2 className="display h-section mt-5 text-ink">
               Eén prijs,<br />
               alles inbegrepen.
@@ -29,16 +39,15 @@ export function Pricing() {
           </Reveal>
           <Reveal delay={0.08} className="max-w-md">
             <p className="text-[1.0625rem] leading-relaxed text-graphite">
-              {actie.tekst} Blijkt onderweg dat je meer of minder lessen nodig hebt, dan hoor je
-              dat van mij — niet pas bij de eindafrekening.
+              {pakketten.actieTekst}
             </p>
           </Reveal>
         </header>
 
         <div className="mt-14 grid gap-5 lg:grid-cols-3">
-          {pakketten.map((pakket, index) => (
+          {pakketten.lijst.map((pakket, index) => (
             <motion.article
-              key={pakket.id}
+              key={pakket._key}
               className={cn(
                 "relative flex flex-col rounded-[26px] p-8",
                 pakket.uitgelicht
@@ -77,7 +86,7 @@ export function Pricing() {
                     pakket.uitgelicht ? "text-amber" : "text-ember",
                   )}
                 >
-                  {pakket.uren}
+                  {pakket.aantalUren} lesuren
                 </p>
 
                 <p className="mt-7 flex items-baseline gap-1.5">
@@ -98,16 +107,14 @@ export function Pricing() {
                     {euro.format(pakket.prijs)}
                   </span>
                 </p>
-                {pakket.perUur && (
-                  <p
-                    className={cn(
-                      "mt-2 text-[0.8125rem]",
-                      pakket.uitgelicht ? "text-slate" : "text-graphite/80",
-                    )}
-                  >
-                    {pakket.perUur}
-                  </p>
-                )}
+                <p
+                  className={cn(
+                    "mt-2 text-[0.8125rem]",
+                    pakket.uitgelicht ? "text-slate" : "text-graphite/80",
+                  )}
+                >
+                  {perUur(pakket.prijs, pakket.aantalUren, pakket.examensInbegrepen)}
+                </p>
 
                 <ul className="mt-8 flex flex-col gap-3.5">
                   {pakket.bevat.map((regel) => (
@@ -146,11 +153,13 @@ export function Pricing() {
           <div className="mt-6 flex flex-col items-start justify-between gap-6 rounded-[26px] border border-ink/10 bg-paper p-8 sm:flex-row sm:items-center">
             <div className="max-w-2xl">
               <h3 className="display text-[1.35rem] text-ink">Liever eerst één losse les?</h3>
-              <p className="mt-2 text-[0.9375rem] leading-relaxed text-graphite">{losseLes.tekst}</p>
+              <p className="mt-2 text-[0.9375rem] leading-relaxed text-graphite">
+                {pakketten.losseLesTekst}
+              </p>
             </div>
             <div className="flex shrink-0 items-baseline gap-2">
               <span className="display text-[2.5rem] leading-none text-ink">
-                € {losseLes.prijs}
+                € {euro.format(pakketten.losseLesPrijs)}
               </span>
               <span className="text-sm text-graphite">per uur</span>
             </div>

@@ -1,9 +1,9 @@
 import { CountUp } from "@/components/ui/CountUp";
 import { Icon } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
-import { cijfers } from "@/lib/content/site";
+import type { CijferData } from "@/sanity/types";
 
-export function StatsBar() {
+export function StatsBar({ cijfers }: { cijfers: CijferData[] }) {
   return (
     <section className="relative border-y border-white/[0.07] bg-ink">
       <div className="shell grid gap-px sm:grid-cols-3">
@@ -24,7 +24,7 @@ export function StatsBar() {
             </span>
             <div className="sm:contents">
               <p className="display text-[2.75rem] leading-none text-white sm:text-[3.5rem]">
-                <CountUp to={cijfer.waarde} suffix={cijfer.achtervoegsel} />
+                <CountUp to={cijfer.waarde} suffix={cijfer.achtervoegsel ?? ""} />
               </p>
               <p className="text-sm text-slate">{cijfer.label}</p>
             </div>

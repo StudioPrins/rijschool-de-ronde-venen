@@ -3,12 +3,18 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { Button } from "@/components/ui/Button";
-import { ImageSlot } from "@/components/ui/ImageSlot";
+import { Foto } from "@/components/ui/Foto";
 import { Reveal } from "@/components/ui/Reveal";
 import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
-import { overArash, regios } from "@/lib/content/site";
+import type { OverArashData } from "@/sanity/types";
 
-export function AboutArash() {
+export function AboutArash({
+  overArash,
+  regios,
+}: {
+  overArash: OverArashData;
+  regios: string[];
+}) {
   const reduced = usePrefersReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -24,20 +30,28 @@ export function AboutArash() {
             className="absolute -bottom-4 -left-4 -right-4 -top-4 rounded-[34px] border border-amber/60"
           />
           <motion.div className="relative" style={reduced ? undefined : { y }}>
-            <ImageSlot label="Foto van Arash" ratio="4 / 5" tone="light" />
+            <Foto
+              bron={overArash.portret}
+              label="Foto van Arash"
+              breedte={800}
+              hoogte={1000}
+              tone="light"
+            />
           </motion.div>
 
-          <div className="glow-amber absolute -bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3 rounded-full bg-ink px-5 py-3">
-            <span className="relative flex size-2">
-              <span
-                className="absolute inline-flex size-full rounded-full bg-mint"
-                style={{ animation: "blink-indicator 2.4s steps(1) infinite" }}
-              />
-            </span>
-            <span className="font-mono text-[0.65rem] tracking-[0.16em] whitespace-nowrap text-white uppercase">
-              Rijinstructeur · WRM
-            </span>
-          </div>
+          {overArash.badge && (
+            <div className="glow-amber absolute -bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3 rounded-full bg-ink px-5 py-3">
+              <span className="relative flex size-2">
+                <span
+                  className="absolute inline-flex size-full rounded-full bg-mint"
+                  style={{ animation: "blink-indicator 2.4s steps(1) infinite" }}
+                />
+              </span>
+              <span className="font-mono text-[0.65rem] tracking-[0.16em] whitespace-nowrap text-white uppercase">
+                {overArash.badge}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="lg:pt-4">

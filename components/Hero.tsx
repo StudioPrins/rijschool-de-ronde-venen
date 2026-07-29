@@ -5,19 +5,12 @@ import { RoadCanvas } from "@/components/RoadCanvas";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icons";
 import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
-import { regios } from "@/lib/content/site";
+import type { SiteData } from "@/sanity/types";
 
-const kopregels = ["Leren rijden", "zonder haast", "in je hoofd."];
-
-const hoogtepunten = [
-  "Gespecialiseerd in autisme, ADHD en ADD",
-  "Avond- en weekendlessen",
-  "Ophalen op huis, school of werk",
-  "Geen wachtlijst",
-];
-
-export function Hero() {
+export function Hero({ site }: { site: SiteData }) {
   const reduced = usePrefersReducedMotion();
+  const regios = site.regios;
+  const kopregels = [site.heroRegel1, site.heroRegel2, site.heroRegel3];
 
   /** Eén sequentie: eyebrow → kopregels → tekst → knoppen → paneel. */
   const stap = (index: number) => ({
@@ -51,7 +44,7 @@ export function Hero() {
 
             <h1 className="display h-hero mt-7 text-white">
               {kopregels.map((regel, index) => (
-                <span key={regel} className="block overflow-hidden pb-[0.08em]">
+                <span key={index} className="block overflow-hidden pb-[0.08em]">
                   <motion.span
                     className="block"
                     initial={{ y: reduced ? 0 : "108%", opacity: reduced ? 0 : 1 }}
@@ -62,12 +55,10 @@ export function Hero() {
                       ease: [0.16, 1, 0.3, 1],
                     }}
                   >
-                    {index === 2 ? (
-                      <>
-                        in je <span className="text-amber">hoofd.</span>
-                      </>
-                    ) : (
-                      regel
+                    {regel}
+                    {/* Het accentwoord sluit aan op de laatste regel */}
+                    {index === kopregels.length - 1 && (
+                      <> <span className="text-amber">{site.heroAccent}</span></>
                     )}
                   </motion.span>
                 </span>
@@ -78,8 +69,7 @@ export function Hero() {
               className="mt-8 max-w-[36rem] text-[1.0625rem] leading-relaxed text-slate sm:text-lg"
               {...stap(5)}
             >
-              Persoonlijke rijlessen van Arash, volgens de RIS-methode. Rustig opgebouwd, in
-              stappen die jij kunt volgen — en je begint deze week nog, want er is geen wachtlijst.
+              {site.heroIntro}
             </motion.p>
 
             <motion.div className="mt-10 flex flex-wrap items-center gap-3" {...stap(6)}>
@@ -106,7 +96,7 @@ export function Hero() {
             />
             <p className="eyebrow text-slate">Waarom hier</p>
             <ul className="mt-6 flex flex-col gap-4">
-              {hoogtepunten.map((punt, index) => (
+              {site.heroPunten.map((punt, index) => (
                 <motion.li
                   key={punt}
                   className="flex items-start gap-3.5 text-[0.9375rem] leading-snug text-white/90"

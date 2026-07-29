@@ -5,10 +5,10 @@ import { useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
-import { contact } from "@/lib/content/site";
-import { faq } from "@/lib/content/faq";
+import type { ContactLinks } from "@/lib/contact";
+import type { FaqData } from "@/sanity/types";
 
-export function Faq() {
+export function Faq({ faq, contact }: { faq: FaqData; contact: ContactLinks }) {
   const [open, setOpen] = useState<number | null>(0);
   const reduced = usePrefersReducedMotion();
 
@@ -22,10 +22,7 @@ export function Faq() {
               Even<br />
               navragen.
             </h2>
-            <p className="mt-6 max-w-sm leading-relaxed text-graphite">
-              Staat je vraag er niet bij? Bel of app gerust even. Je krijgt Arash zelf aan de
-              lijn, geen callcenter.
-            </p>
+            <p className="mt-6 max-w-sm leading-relaxed text-graphite">{faq.intro}</p>
             <a
               href={contact.telefoonHref}
               className="display mt-6 inline-block text-[1.5rem] text-ink underline decoration-amber decoration-2 underline-offset-[6px] transition-colors hover:text-ember"
@@ -36,7 +33,7 @@ export function Faq() {
         </div>
 
         <ul className="flex flex-col">
-          {faq.map((item, index) => {
+          {faq.lijst.map((item, index) => {
             const isOpen = open === index;
             return (
               <Reveal as="li" key={item.vraag} delay={Math.min(index * 0.04, 0.24)}>

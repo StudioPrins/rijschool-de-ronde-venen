@@ -6,16 +6,17 @@ import { Icon } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/cn";
 import { usePrefersReducedMotion } from "@/lib/hooks/usePrefersReducedMotion";
-import { risModules, type RisModule } from "@/lib/content/ris";
+import type { AanpakData, ModuleData } from "@/sanity/types";
 
 /**
  * De signature-sectie. De RIS-methode is een route in vier stappen, dus is
  * deze sectie letterlijk een weg: een rail met kantstrepen en een onderbroken
  * middenstreep, die zich in amber vult naarmate je verder scrollt.
  */
-export function RisRoute() {
+export function RisRoute({ aanpak }: { aanpak: AanpakData }) {
   const reduced = usePrefersReducedMotion();
   const routeRef = useRef<HTMLDivElement>(null);
+  const modules = aanpak.modules;
 
   const { scrollYProgress } = useScroll({
     target: routeRef,
@@ -43,9 +44,7 @@ export function RisRoute() {
           </Reveal>
           <Reveal delay={0.08}>
             <p className="mt-6 max-w-xl text-[1.0625rem] leading-relaxed text-slate">
-              De RIS-methode deelt de rijopleiding op in stappen. Je gaat pas verder als de vorige
-              stap zit. Dat betekent dat je altijd weet waar je bent, wat je kunt en wat er
-              hierna komt — geen verrassingen halverwege de les.
+              {aanpak.intro}
             </p>
           </Reveal>
         </header>
@@ -92,8 +91,14 @@ export function RisRoute() {
           </div>
 
           <ol className="flex flex-col gap-5 sm:gap-6">
-            {risModules.map((module, index) => (
-              <Waypoint key={module.marker} module={module} index={index} reduced={reduced} />
+            {modules.map((module, index) => (
+              <Waypoint
+                key={module.titel}
+                module={module}
+                index={index}
+                totaal={modules.length}
+                reduced={reduced}
+              />
             ))}
           </ol>
 
@@ -103,7 +108,7 @@ export function RisRoute() {
               <Icon name="check" className="size-4" />
             </span>
             <p className="display text-[1.35rem] text-white sm:text-[1.6rem]">
-              Rijbewijs op zak.
+              {aanpak.eindpunt}
             </p>
           </div>
         </div>
@@ -115,12 +120,16 @@ export function RisRoute() {
 function Waypoint({
   module,
   index,
+  totaal,
   reduced,
 }: {
-  module: RisModule;
+  module: ModuleData;
   index: number;
+  totaal: number;
   reduced: boolean;
 }) {
+  // De markering op de weg telt mee met de volgorde in Sanity.
+  const marker = `M${String(index + 1).padStart(2, "0")}`;
   const ref = useRef<HTMLLIElement>(null);
   const actief = useInView(ref, { once: true, margin: "-45% 0px -35% 0px" });
 
@@ -147,7 +156,7 @@ function Waypoint({
         }
         transition={{ type: "spring", stiffness: 320, damping: 20 }}
       >
-        {module.marker}
+        {marker}
       </motion.span>
 
       <div
@@ -188,7 +197,7 @@ function Waypoint({
         </ul>
       </div>
 
-      <span className="sr-only">Module {index + 1} van {risModules.length}</span>
+      <span className="sr-only">Module {index + 1} van {totaal}</span>
     </motion.li>
   );
 }

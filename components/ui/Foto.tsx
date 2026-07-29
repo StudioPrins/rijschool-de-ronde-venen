@@ -1,20 +1,53 @@
+import Image from "next/image";
 import { cn } from "@/lib/cn";
+import { urlVoor } from "@/sanity/image";
+import type { SanityAfbeelding } from "@/sanity/types";
 
-type ImageSlotProps = {
-  /** Wat hier uiteindelijk komt te staan — ook zichtbaar in de placeholder */
+type FotoProps = {
+  bron: SanityAfbeelding;
+  /** Wat hier hoort te staan — ook de tekst in de placeholder */
   label: string;
-  ratio?: string;
+  breedte: number;
+  hoogte: number;
   className?: string;
   tone?: "dark" | "light";
+  sizes?: string;
 };
 
 /**
- * Gereserveerde plek voor beeld dat Arash nog moet aanleveren.
- * Vervangen door <Image> zodra de foto's er zijn — de omliggende layout
- * hoeft dan niet te wijzigen.
+ * Toont de foto uit Sanity zodra Arash er een uploadt. Zolang die er niet is
+ * blijft de gearceerde plaatshouder staan, zodat de layout niet inzakt.
  */
-export function ImageSlot({ label, ratio = "4 / 5", className, tone = "dark" }: ImageSlotProps) {
+export function Foto({
+  bron,
+  label,
+  breedte,
+  hoogte,
+  className,
+  tone = "dark",
+  sizes,
+}: FotoProps) {
   const dark = tone === "dark";
+  const ratio = `${breedte} / ${hoogte}`;
+
+  if (bron?.asset) {
+    return (
+      <div
+        className={cn("relative overflow-hidden rounded-[28px]", className)}
+        style={{ aspectRatio: ratio }}
+      >
+        <Image
+          src={urlVoor(bron).width(breedte).height(hoogte).url()}
+          alt={bron.alt ?? label}
+          fill
+          sizes={sizes ?? "(max-width: 1024px) 90vw, 400px"}
+          className="object-cover"
+          placeholder={bron.asset.metadata?.lqip ? "blur" : "empty"}
+          blurDataURL={bron.asset.metadata?.lqip ?? undefined}
+        />
+      </div>
+    );
+  }
 
   return (
     <div
