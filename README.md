@@ -34,10 +34,13 @@ Alles wat op de site staat komt uit Sanity. Arash beheert het op `/studio`; het 
 volgt de volgorde van de pagina:
 
 Algemeen & contact · Cijferbalk · Waarom wij · Over Arash · Aanpak (RIS) · Prijzen ·
-Reviews · Veelgestelde vragen · Algemene voorwaarden
+Reviews · Veelgestelde vragen · Aanmeldformulier · Algemene voorwaarden
 
-Negen singletons, elk met de lijsten als array erin. Schema's staan in `sanity/schemas/`,
+Tien singletons, elk met de lijsten als array erin. Schema's staan in `sanity/schemas/`,
 het menu in `sanity/structure.ts`. Er is bewust geen "nieuw document"- of verwijderknop.
+
+**Sectiekoppen** breken over twee regels en zitten daarom als twee losse velden in het
+schema (`sanity/schemas/velden.ts`). Zo blijft de compositie heel als de tekst verandert.
 
 **Afgeleid, niet ingevuld** — zodat er niets uit de pas kan lopen:
 
@@ -48,8 +51,15 @@ het menu in `sanity/structure.ts`. Er is bewust geen "nieuw document"- of verwij
 - het aantal reviews onder het Google-cijfer uit de lijst
 
 **Niet in Sanity**, met opzet: de menu-links (`lib/navigatie.ts`, verwijzen naar section-id's),
-de tweeregelige sectiekoppen, en de privacyverklaring — die beschrijft wat de code met
-gegevens doet.
+de formuliertaal (veldnamen, stappentitels, Volgende/Terug — die horen bij de foutmeldingen
+en schermlezer-teksten en moeten daarmee in de pas blijven), de footerkoppen, het woordmerk,
+en de privacyverklaring — die beschrijft wat de code met gegevens doet.
+
+**Niet klikbaar in Presentation, wel bewerkbaar via het menu:** alle getallen. Visual editing
+werkt via onzichtbare tekens in tekst, en getallen krijgen die nooit. Dat raakt de prijzen,
+de cijferbalk, het gemiddelde reviewcijfer en het aantal sterren. Hetzelfde geldt voor de
+velden die met `stegaClean` worden ontdaan van die tekens: icoonkeuzes en het
+telefoonnummer/e-mailadres.
 
 ### Zichtbaarheid in Google
 
