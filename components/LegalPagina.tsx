@@ -31,7 +31,9 @@ export function LegalPagina({
       </header>
 
       <main className="hairline-amber relative bg-paper py-20">
-        <div className="shell flex max-w-3xl flex-col gap-10">{children}</div>
+        <div className="shell">
+          <div className="flex max-w-3xl flex-col gap-10">{children}</div>
+        </div>
       </main>
 
       <Footer />

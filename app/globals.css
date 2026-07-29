@@ -62,6 +62,10 @@ body {
   border-radius: 4px;
 }
 
+/* Alle eigen klassen staan in @layer components, zodat losse Tailwind-
+   utilities (max-w-3xl naast .shell bijvoorbeeld) er altijd overheen gaan. */
+@layer components {
+
 /* --- Typografische basis ------------------------------------------ */
 .display {
   font-family: var(--font-display);
@@ -239,6 +243,16 @@ body {
     );
 }
 
+.marquee-track {
+  animation: marquee-scroll 46s linear infinite;
+}
+.marquee-track:hover,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+} /* einde @layer components */
+
 @keyframes lane-run {
   to {
     background-position-y: 200px;
@@ -275,14 +289,6 @@ body {
   95% {
     opacity: 0.18;
   }
-}
-
-.marquee-track {
-  animation: marquee-scroll 46s linear infinite;
-}
-.marquee-track:hover,
-.marquee-track:focus-within {
-  animation-play-state: paused;
 }
 
 /* --- Reduced motion: alles stil, niets verdwijnt ------------------- */
